@@ -15,6 +15,25 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./functions": {
+      "import": "./dist/functions/index.js",
+      "require": "./dist/functions/index.cjs"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "functions": [
+        "dist/functions.d.ts"
+      ],
+      "types": [
+        "dist/types.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -46,18 +65,12 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
     "@tsconfig/strictest": "^2.0.8",
     "@types/node": "^24.10.1",
-    "@vitejs/plugin-react": "^5.1.1",
     "@vitest/ui": "^4.0.14",
     "jsdom": "^27.2.0",
     "tsdown": "^0.16.4",
-    "typedoc": "^0.28.15",
-    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
-    "vite": "npm:rolldown-vite@^7.2.5",
     "vitest": "^4.0.14"
   },
   "publishConfig": {
