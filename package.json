@@ -1,0 +1,66 @@
+{
+  "name": "@sohanemon/core",
+  "version": "1.0.0",
+  "author": "Sohan Emon <sohanemon@outlook.com>",
+  "description": "Core utilities for JavaScript/TypeScript projects, including React Native",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.cts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest",
+    "test:run": "vitest run --silent",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write --unsafe .",
+    "format": "biome format .",
+    "format:write": "biome format . --write",
+    "typecheck": "tsgo --noEmit",
+    "release": "tsgo --noEmit && npm run build && npm publish"
+  },
+  "keywords": [
+    "utils",
+    "core",
+    "typescript",
+    "react-native"
+  ],
+  "license": "ISC",
+  "homepage": "https://sohanjs.web.app/core",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sohanemon/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sohanemon/core/issues"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/ui": "^4.0.14",
+    "jsdom": "^27.2.0",
+    "tsdown": "^0.16.4",
+    "typedoc": "^0.28.15",
+    "typedoc-plugin-markdown": "^4.9.0",
+    "typescript": "^5.9.3",
+    "vite": "npm:rolldown-vite@^7.2.5",
+    "vitest": "^4.0.14"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
