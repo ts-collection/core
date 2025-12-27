@@ -1,5 +1,5 @@
 {
-  "name": "@sohanemon/core",
+  "name": "@sohanscript/utils",
   "version": "1.0.0",
   "author": "Sohan Emon <sohanemon@outlook.com>",
   "description": "Core utilities for JavaScript/TypeScript projects, including React Native",

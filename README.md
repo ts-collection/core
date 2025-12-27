@@ -1,17 +1,17 @@
-# @sohanemon/core
+# @sohanscript/utils
 
 Core utilities for JavaScript/TypeScript projects, including React Native.
 
 ## Installation
 
 ```bash
-npm install @sohanemon/core
+npm install @sohanscript/utils
 ```
 
 ## Usage
 
 ```ts
-import { deepmerge, debounce, sleep } from '@sohanemon/core';
+import { deepmerge, debounce, sleep } from '@sohanscript/utils';
 
 // Example usage
 const merged = deepmerge({ a: 1 }, { b: 2 });
