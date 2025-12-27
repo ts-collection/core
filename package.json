@@ -1,8 +1,8 @@
 {
-  "name": "@sohanscript/utils",
-  "version": "1.0.0",
+  "name": "@ts-utilities/core",
+  "version": "1.0.1",
   "author": "Sohan Emon <sohanemon@outlook.com>",
-  "description": "Core utilities for JavaScript/TypeScript projects, including React Native",
+  "description": "Core utilities for JavaScript/TypeScript projects",
   "type": "module",
   "files": [
     "dist"
