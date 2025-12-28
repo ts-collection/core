@@ -3,7 +3,7 @@
 ![npm version](https://img.shields.io/npm/v/@ts-utilities/core)
 ![npm downloads](https://img.shields.io/npm/dm/@ts-utilities/core)
 ![License](https://img.shields.io/npm/l/@ts-utilities/core)
-![Tests](https://github.com/ts-collection/core/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/ts-collection/utilities/actions/workflows/test.yml/badge.svg)
 
 ## Description
 
@@ -278,4 +278,4 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 ## Contact
 
 - **Sohan Emon**: [sohanemon@outlook.com](mailto:sohanemon@outlook.com)
-- **GitHub**: [ts-collection/core](https://github.com/ts-collection/core)
+- **GitHub**: [ts-collection/utilities](https://github.com/ts-collection/utilities)

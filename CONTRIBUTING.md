@@ -5,7 +5,7 @@ Thanks for your interest in contributing to @ts-utilities/core! We welcome contr
 ## Development Setup
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/ts-collection/core.git`
+2. Clone your fork: `git clone https://github.com/ts-collection/utilities.git`
 3. Install dependencies: `bun install`
 4. Run tests: `bun run test:run`
 5. Build the project: `bun run build`

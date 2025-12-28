@@ -66,18 +66,20 @@ export const isBoolean = (val: unknown): val is boolean =>
 export const isString = (val: unknown): val is string =>
   typeof val === 'string';
 /**
- * Type guard that checks if a value is a number.
+ * Type guard that checks whether a value is a finite number.
+ *
+ * This excludes `NaN`, `Infinity`, and `-Infinity`.
  *
  * @param val - The value to check
- * @returns True if the value is a number, false otherwise
+ * @returns `true` if the value is a finite number
  *
  * @example
- * if (isNumber(value)) {
- *   console.log('Value is a number');
- * }
+ * isFiniteNumber(42);        // true
+ * isFiniteNumber(NaN);       // false
+ * isFiniteNumber(Infinity); // false
  */
-export const isNumber = (val: unknown): val is number =>
-  typeof val === 'number';
+export const isFiniteNumber = (val: unknown): val is number =>
+  typeof val === 'number' && Number.isFinite(val);
 /**
  * Type guard that checks if a value is an array.
  *
