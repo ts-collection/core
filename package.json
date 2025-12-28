@@ -1,6 +1,6 @@
 {
   "name": "@ts-utilities/core",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "author": "Sohan Emon <sohanemon@outlook.com>",
   "description": "Core utilities for JavaScript/TypeScript projects",
   "type": "module",
@@ -50,10 +50,10 @@
   "homepage": "https://sohanjs.web.app/core",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sohanemon/core.git"
+    "url": "git+https://github.com/ts-collection/core.git"
   },
   "bugs": {
-    "url": "https://github.com/sohanemon/core/issues"
+    "url": "https://github.com/ts-collection/core/issues"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",

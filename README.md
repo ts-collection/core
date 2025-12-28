@@ -3,7 +3,7 @@
 ![npm version](https://img.shields.io/npm/v/@ts-utilities/core)
 ![npm downloads](https://img.shields.io/npm/dm/@ts-utilities/core)
 ![License](https://img.shields.io/npm/l/@ts-utilities/core)
-![Tests](https://github.com/sohanemon/core/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/ts-collection/core/actions/workflows/test.yml/badge.svg)
 
 ## Description
 
@@ -39,9 +39,8 @@ yarn add @ts-utilities/core
 You can import individual utilities or types as needed:
 
 ```typescript
-import { deepmerge, poll, shield, sleep, debounce, throttle } from '@ts-utilities/core';
-import { getObjectValue, extendProps, hydrate } from '@ts-utilities/core/functions';
-import type { DeepPartial, Primitive, KeysOfType } from '@ts-utilities/core/types';
+import { deepmerge, poll, shield, sleep, debounce, throttle, getObjectValue, extendProps, hydrate } from '@ts-utilities/core';
+import type { DeepPartial, Primitive, KeysOfType } from '@ts-utilities/core';
 ```
 
 ### Examples
@@ -117,7 +116,7 @@ const throttledFunction = throttle(() => console.log('Throttled!'), 300);
 #### TypeScript Types
 
 ```typescript
-import type { DeepPartial, Nullable, KeysOfType, Primitive } from '@ts-utilities/core/types';
+import type { DeepPartial, Nullable, KeysOfType, Primitive } from '@ts-utilities/core';
 
 type PartialUser = DeepPartial<User>;
 type NullableUser = Nullable<User>;
@@ -279,4 +278,4 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 ## Contact
 
 - **Sohan Emon**: [sohanemon@outlook.com](mailto:sohanemon@outlook.com)
-- **GitHub**: [sohanemon](https://github.com/sohanemon)
+- **GitHub**: [ts-collection/core](https://github.com/ts-collection/core)

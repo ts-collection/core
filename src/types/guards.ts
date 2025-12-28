@@ -40,6 +40,70 @@ export const isFalsy = (val: unknown): val is Falsy => !val;
  */
 export const isNullish = (val: unknown): val is null | undefined => val == null;
 /**
+ * Type guard that checks if a value is a boolean.
+ *
+ * @param val - The value to check
+ * @returns True if the value is a boolean, false otherwise
+ *
+ * @example
+ * if (isBoolean(value)) {
+ *   console.log('Value is a boolean');
+ * }
+ */
+export const isBoolean = (val: unknown): val is boolean =>
+  typeof val === 'boolean';
+/**
+ * Type guard that checks if a value is a string.
+ *
+ * @param val - The value to check
+ * @returns True if the value is a string, false otherwise
+ *
+ * @example
+ * if (isString(value)) {
+ *   console.log('Value is a string');
+ * }
+ */
+export const isString = (val: unknown): val is string =>
+  typeof val === 'string';
+/**
+ * Type guard that checks if a value is a number.
+ *
+ * @param val - The value to check
+ * @returns True if the value is a number, false otherwise
+ *
+ * @example
+ * if (isNumber(value)) {
+ *   console.log('Value is a number');
+ * }
+ */
+export const isNumber = (val: unknown): val is number =>
+  typeof val === 'number';
+/**
+ * Type guard that checks if a value is an array.
+ *
+ * @param val - The value to check
+ * @returns True if the value is an array, false otherwise
+ *
+ * @example
+ * if (isArray(value)) {
+ *   console.log('Value is an array');
+ * }
+ */
+export const isArray = (val: unknown): val is unknown[] => Array.isArray(val);
+/**
+ * Type guard that checks if a value is a function.
+ *
+ * @param val - The value to check
+ * @returns True if the value is a function, false otherwise
+ *
+ * @example
+ * if (isFunction(value)) {
+ *   console.log('Value is a function');
+ * }
+ */
+export const isFunction = (val: unknown): val is Function =>
+  typeof val === 'function';
+/**
  * Type guard that checks if a value is a primitive type.
  *
  * @param val - The value to check
