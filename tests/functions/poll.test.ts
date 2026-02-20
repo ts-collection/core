@@ -457,6 +457,116 @@ describe('poll', () => {
 
       await expect(promise).rejects.toThrow('Condition failed');
     });
+
+    it('should use default interval of 5000ms', async () => {
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        return attempts >= 2 ? Promise.resolve('done') : Promise.resolve(null);
+      });
+
+      const promise = poll.wait(cond, { jitter: false });
+      await vi.runAllTimersAsync();
+      const result = await promise;
+
+      expect(result).toBe('done');
+      expect(cond).toHaveBeenCalledTimes(2);
+    });
+
+    it('should use default timeout of 5 minutes', async () => {
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        return Promise.resolve(null);
+      });
+
+      const promise = poll.wait(cond, { interval: 1000, jitter: false });
+      promise.catch(() => {});
+
+      await vi.runAllTimersAsync();
+
+      await expect(promise).rejects.toThrow('Polling timed out after 300000ms');
+    });
+
+    it('should use jitter true by default', async () => {
+      const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.5);
+
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        return attempts >= 2 ? Promise.resolve('done') : Promise.resolve(null);
+      });
+
+      const promise = poll.wait(cond, { interval: 50 });
+      await vi.runAllTimersAsync();
+      const result = await promise;
+
+      expect(result).toBe('done');
+      expect(randomSpy).toHaveBeenCalled();
+
+      randomSpy.mockRestore();
+    });
+
+    it('should work without signal option', async () => {
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        return attempts >= 2 ? Promise.resolve('done') : Promise.resolve(null);
+      });
+
+      const promise = poll.wait(cond, { interval: 50, jitter: false });
+      await vi.runAllTimersAsync();
+      const result = await promise;
+
+      expect(result).toBe('done');
+      expect(cond).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle undefined return value as falsy', async () => {
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        return attempts >= 2
+          ? Promise.resolve('done')
+          : Promise.resolve(undefined);
+      });
+
+      const promise = poll.wait(cond, { interval: 50, jitter: false });
+      await vi.runAllTimersAsync();
+      const result = await promise;
+
+      expect(result).toBe('done');
+      expect(cond).toHaveBeenCalledTimes(2);
+    });
+
+    it('should treat null and undefined the same way in poll.watch', async () => {
+      let attempts = 0;
+      const cond = vi.fn().mockImplementation(() => {
+        attempts++;
+        if (attempts === 1) return Promise.resolve(undefined);
+        if (attempts === 2) return Promise.resolve(null);
+        return Promise.resolve('done');
+      });
+
+      const results: (string | null)[] = [];
+      const generator = poll.watch<string>(cond, {
+        interval: 50,
+        jitter: false,
+      });
+
+      const iterate = async () => {
+        for await (const value of generator) {
+          results.push(value);
+        }
+      };
+
+      const promise = iterate();
+      await vi.runAllTimersAsync();
+      await promise;
+
+      expect(results).toEqual([null, null, 'done']);
+      expect(cond).toHaveBeenCalledTimes(3);
+    });
   });
 
   describe('poll.signal.abort symbol', () => {
