@@ -1,7 +1,10 @@
+import type { MaybeFunction } from '../types';
+import { unwrap } from './utils-core';
+
 /**
  * A task function that can be synchronous or asynchronous.
  */
-export type Task = () => Promise<void> | void;
+export type Task = MaybeFunction<Promise<void> | void>;
 
 /**
  * Options for configuring the schedule function.
@@ -11,8 +14,6 @@ export interface ScheduleOpts {
   retry?: number;
   /** Delay in milliseconds between retries. Defaults to 0. */
   delay?: number;
-  /** Maximum time in milliseconds to wait for the task to complete. */
-  timeout?: number;
   /** Enable debug logging. Defaults to false. */
   debug?: boolean;
 }
@@ -48,7 +49,7 @@ export function schedule(task: Task, options: ScheduleOpts = {}) {
 
   const attempt = async (triesLeft: number) => {
     try {
-      await task();
+      await unwrap(task);
       if (debug) {
         const total = Date.now() - start;
         console.log(`⚡[schedule.ts] Completed in ${total}ms`);
