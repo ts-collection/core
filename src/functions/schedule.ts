@@ -16,6 +16,21 @@ export interface ScheduleOpts {
   delay?: number;
   /** Enable debug logging. Defaults to false. */
   debug?: boolean;
+  /**
+   * Pass `ctx.waitUntil` on serverless/edge runtimes (Vercel, Cloudflare, etc.)
+   * to keep the execution context alive until the task settles.
+   * Without this, the runtime may shut down before the task completes.
+   *
+   * @example
+   * ```ts
+   * // Vercel Edge / Next.js route handler
+   * schedule(() => sendAnalytics(), { waitUntil: ctx.waitUntil });
+   *
+   * // Cloudflare Worker
+   * schedule(() => logToR2(), { waitUntil: ctx.waitUntil });
+   * ```
+   */
+  waitUntil?: (promise: Promise<unknown>) => void;
 }
 
 /**
@@ -25,8 +40,11 @@ export interface ScheduleOpts {
  * Useful for non-critical operations like analytics, logging, or background processing.
  * Logs execution time and retry attempts to the console.
  *
+ * On serverless/edge runtimes, pass `waitUntil` from the execution context to prevent
+ * the runtime from shutting down before the task completes.
+ *
  * @param task - The function to execute asynchronously
- * @param options - Configuration options for retries and timing
+ * @param options - Configuration options for retries, timing, and runtime context
  *
  * @example
  * ```ts
@@ -40,10 +58,16 @@ export interface ScheduleOpts {
  *   () => sendAnalytics(),
  *   { retry: 3, delay: 1000 }
  * );
+ *
+ * // Serverless/edge runtime
+ * schedule(
+ *   () => sendAnalytics(),
+ *   { retry: 3, delay: 1000, waitUntil: ctx.waitUntil }
+ * );
  * ```
  */
 export function schedule(task: Task, options: ScheduleOpts = {}) {
-  const { retry = 0, delay = 0, debug = false } = options;
+  const { retry = 0, delay = 0, debug = false, waitUntil } = options;
 
   const start = Date.now();
 
@@ -72,6 +96,11 @@ export function schedule(task: Task, options: ScheduleOpts = {}) {
     }
   };
 
-  // Schedule immediately
-  setTimeout(() => attempt(retry), 0);
+  const work = new Promise<void>((resolve) => {
+    setTimeout(() => attempt(retry).then(resolve), 0);
+  });
+
+  if (waitUntil) {
+    waitUntil(work);
+  }
 }
