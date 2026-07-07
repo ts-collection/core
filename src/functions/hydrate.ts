@@ -1,4 +1,4 @@
-import { isPlainObject } from '../types';
+import { transform } from './transform';
 
 type Hydrate<T> = T extends null
   ? undefined
@@ -10,6 +10,9 @@ type Hydrate<T> = T extends null
 
 /**
  * Converts all `null` values to `undefined` in the data structure recursively.
+ *
+ * @deprecated Use `transform(data, { match: 'null' })` instead. `hydrate` is a thin wrapper
+ * around `transform` and will be removed in a future version.
  *
  * @param data - Any input data (object, array, primitive)
  * @returns Same type as input, but with all nulls replaced by undefined
@@ -35,43 +38,7 @@ type Hydrate<T> = T extends null
  *   metadata: { published: null, tags: ['react', null] }
  * })
  * ```
- *
- * @example
- * ```ts
- * // API response normalization
- * const apiResponse = await fetch('/api/user');
- * const rawData = await apiResponse.json(); // May contain null values
- * const normalizedData = hydrate(rawData); // Convert nulls to undefined
- *
- * // Database result processing
- * const dbResult = query('SELECT * FROM users'); // Some fields may be NULL
- * const cleanData = hydrate(dbResult); // Normalize for consistent handling
- *
- * // Form data sanitization
- * const formData = getFormValues(); // May have null values from empty fields
- * const sanitizedData = hydrate(formData); // Prepare for validation/state
- * ```
  */
 export function hydrate<T>(data: T): Hydrate<T> {
-  return convertNulls(data) as Hydrate<T>;
-}
-
-function convertNulls(value: unknown): unknown {
-  if (value === null) return undefined;
-
-  if (typeof value !== 'object' || value === null) return value;
-
-  if (Array.isArray(value)) {
-    return value.map(convertNulls);
-  }
-
-  if (isPlainObject(value)) {
-    const result: Record<string, any> = {};
-    for (const key in value) {
-      result[key] = convertNulls(value[key]);
-    }
-    return result;
-  }
-
-  return value;
+  return transform(data, { match: 'null' }) as Hydrate<T>;
 }

@@ -8,9 +8,8 @@ type DenullifyOptions<R = undefined> = {
    * Determines which values are considered targets.
    * - 'null' | 'undefined' | 'nullish' | 'falsy' — built-in shorthand
    * - custom function — (value, key) => boolean for arbitrary logic
-   * Defaults to 'null' if omitted.
    */
-  match?: TypeMatcher;
+  match: TypeMatcher;
 
   /**
    * What happens to a matched value:
@@ -30,14 +29,14 @@ type Transform<T, R> = T extends null
       : T;
 
 /**
- * Recursively matches values (default: `null`) and either replaces or deletes them.
+ * Recursively matches values and either replaces or deletes them.
  *
  * @example
- * transform({ name: null, age: 25 })
+ * transform({ name: null, age: 25 }, { match: 'null' })
  * // { name: undefined, age: 25 }
  *
  * @example
- * transform({ name: null, age: 25 }, { action: { type: 'replace', value: '' } })
+ * transform({ name: null, age: 25 }, { match: 'null', action: { type: 'replace', value: '' } })
  * // { name: '', age: 25 }
  *
  * @example
@@ -57,9 +56,9 @@ type Transform<T, R> = T extends null
  */
 export function transform<T, R = undefined>(
   data: T,
-  options: DenullifyOptions<R> = {},
+  options: DenullifyOptions<R>,
 ): Transform<T, R> {
-  const match = options.match ?? 'null';
+  const match = options.match;
   const action = options.action ?? { type: 'replace', value: undefined as R };
   return convert(data, match, action) as Transform<T, R>;
 }
