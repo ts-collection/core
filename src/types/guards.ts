@@ -163,7 +163,94 @@ export function isPlainObject(value: unknown): value is Record<string, any> {
     return false;
   }
 
-  // Objects with null prototype are still plain objects
   const proto = Object.getPrototypeOf(value);
   return proto === null || proto === Object.prototype;
+}
+
+/** Built-in shorthand matchers for common JS/TS value checks */
+type MatchMode =
+  | 'null'
+  | 'undefined'
+  | 'nullish'
+  | 'falsy'
+  | 'truthy'
+  | 'string'
+  | 'number'
+  | 'boolean'
+  | 'symbol'
+  | 'bigint'
+  | 'function'
+  | 'object'
+  | 'array'
+  | 'plain-object'
+  | 'nan'
+  | 'empty'
+  | 'finite'
+  | 'integer';
+
+/** Custom matcher function for arbitrary matching logic */
+type MatchFn = (value: unknown, key?: string | number) => boolean;
+
+/** Accepts either a shorthand mode or a custom predicate */
+export type TypeMatcher = MatchMode | MatchFn;
+
+export function isMatch(value: unknown, matcher: TypeMatcher): boolean;
+export function isMatch(
+  value: unknown,
+  key: string | number,
+  matcher: TypeMatcher,
+): boolean;
+export function isMatch(
+  value: unknown,
+  keyOrMatcher: string | number | TypeMatcher,
+  maybeMatcher?: TypeMatcher,
+): boolean {
+  const key: string | number | undefined =
+    maybeMatcher !== undefined ? (keyOrMatcher as string | number) : undefined;
+  const matcher: TypeMatcher =
+    maybeMatcher !== undefined ? maybeMatcher : (keyOrMatcher as TypeMatcher);
+
+  if (typeof matcher === 'function') return matcher(value, key);
+
+  switch (matcher) {
+    case 'null':
+      return value === null;
+    case 'undefined':
+      return value === undefined;
+    case 'nullish':
+      return value == null;
+    case 'falsy':
+      return !value;
+    case 'truthy':
+      return !!value;
+    case 'string':
+      return typeof value === 'string';
+    case 'number':
+      return typeof value === 'number';
+    case 'boolean':
+      return typeof value === 'boolean';
+    case 'symbol':
+      return typeof value === 'symbol';
+    case 'bigint':
+      return typeof value === 'bigint';
+    case 'function':
+      return typeof value === 'function';
+    case 'object':
+      return typeof value === 'object' && value !== null;
+    case 'array':
+      return Array.isArray(value);
+    case 'plain-object':
+      return isPlainObject(value);
+    case 'nan':
+      return Number.isNaN(value);
+    case 'empty':
+      if (value === '' || value === null || value === undefined) return true;
+      if (Array.isArray(value)) return value.length === 0;
+      if (isPlainObject(value)) return Object.keys(value).length === 0;
+      return false;
+    case 'finite':
+      return isFiniteNumber(value);
+    case 'integer':
+      return Number.isInteger(value);
+  }
 }
